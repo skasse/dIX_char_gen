@@ -6,7 +6,13 @@
     creating an array from all permutations and outputting them into unique asset.usda
     from an original template.usda
 """
-
+""" 
+    TO DO - ADD HASH TO LINE 1 to check for modifications before overwriting?
+    store hashes in DB
+    check against DB for changed files
+    mark for upload/download/version
+    Hash must be external otherwise it will never match. 
+"""
 
 from glob import glob
 import os
@@ -20,7 +26,7 @@ skinpath = sourcePath+"TASKS/LOOKDEV/char/skin/"
 modelpath = sourcePath+"TASKS/MODEL/char/**/asset/"
 mtldef = sourcePath+"TASKS/LOOKDEV/default/material_assignments.usda"
 destPath = sourcePath+"PUBLISH/assets/char/"
-template = sourcePath+"variations/template/asset_template.usda"
+template = sourcePath+"templates/asset_dev_template.usda"
 lookback = "../../../"
 
 
@@ -49,12 +55,13 @@ if not os.path.exists(destPath):
     os.mkdir(destPath)
     print("created dir:", destPath)
 else:
-    print("already exists")
+    print("dir exists")
 
 varcount = len(variations)
 index = 0
-if os.path.exists(template):
-    # print(filename)
+if not os.path.exists(template):
+    print("template missing!")
+elif os.path.exists(template):
     s = None
     for var in variations:
         # print(vars)
@@ -67,4 +74,4 @@ if os.path.exists(template):
             s = s.replace("subLayers = []", variations[var])
             f.write(s)
         print("{0}/{1}".format(index, varcount))
-print("created {0} assets, from {1} models and {2} skin materials".format(len(variations), len(models), len(layers)))
+    print("created {0} assets, from {1} models and {2} skin materials".format(len(variations), len(models), len(layers)))
