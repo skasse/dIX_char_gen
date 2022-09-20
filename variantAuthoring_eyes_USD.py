@@ -19,22 +19,22 @@ eyePaths = ["/".join(x.replace(os.sep, '/').split("/")[-5:]) for x in glob(eyeSe
 eyeNames = [x.split("/")[-1].split(".")[0] for x in eyePaths]
 eyeVarDict = dict(zip(eyeNames, eyePaths))
 
-usdName = "eyeVarSets.usda"
-stageName = rootPath+usdName
-
-material = "/World/Looks/Looks/Looks/c_eye_mtl"
 
 def varGen(stageName, variantDict, material):
+
     # CREATE STAGE
     if os.path.exists(stageName):
         stage = Usd.Stage.Open(stageName)
     else:
         stage = Usd.Stage.CreateNew(stageName)
 
+    root_path = '/World'
     UsdGeom.SetStageUpAxis(stage, UsdGeom.Tokens.z)
-    stage.RemovePrim('/World')
-    
-    refModel = stage.OverridePrim('/World/Looks')
+    stage.RemovePrim(root_path)
+    root_prim  = stage.DefinePrim(root_path, 'Xform')
+    refModel = stage.DefinePrim(f'{root_path}/Looks', 'Xform')
+    root_prim = stage.GetPrimAtPath(root_path)
+    stage.SetDefaultPrim(root_prim)
 
     for each in [refModel]:
         charvset = each.GetVariantSets().AddVariantSet('eyeVariant')
@@ -44,10 +44,14 @@ def varGen(stageName, variantDict, material):
             with charvset.GetVariantEditContext():
                 refModel.GetReferences().AddReference(variantDict[key])
 
-    # UsdShade.MaterialBindingAPI(refModel).Bind(stageMaterial)
     # SAVE OUT CHANGES
     stage.GetRootLayer().Save()
 
 
 # # Generate eye look Variants
+
+usdName = "eyeVarSets.usda"
+stageName = rootPath+usdName
+material = "/World/Looks/Looks/Looks/c_eye_mtl"
+
 varGen(rootPath+"eyeVarSets.usda", eyeVarDict, material)

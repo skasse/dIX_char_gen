@@ -19,6 +19,8 @@ modelVarDict = dict(zip(modelNames,modelPaths))
 
 
 # pathing must be absolute
+# can retrieve from alternate config file
+
 mtlAssignments = {
     "/World/Looks/Looks/c_skin_mtl": [
         "/World/Char/CC_Base_BoneRoot0/CC_Base_Body/Std_Skin_Head",
@@ -33,6 +35,7 @@ mtlAssignments = {
     }
 
 def varGen(stageName, variantDict, mtlAssignments):
+
     # CHECK IF STAGE EXISTS, if not CREATE STAGE.  API WILL NOT OVERWRITE EXISTING STAGES
     if os.path.exists(stageName):
         stage = Usd.Stage.Open(stageName)
@@ -43,9 +46,14 @@ def varGen(stageName, variantDict, mtlAssignments):
     UsdGeom.SetStageUpAxis(stage, UsdGeom.Tokens.z)
     
     # remove /World clears the stage and creates blank slate
-    stage.RemovePrim('/World')
+    root_path = '/World'
+    stage.RemovePrim(root_path)
+    root_prim  = stage.DefinePrim(root_path, 'Xform')
+    refModel = stage.DefinePrim(f'{root_path}/Looks', 'Xform')
+    root_prim = stage.GetPrimAtPath(root_path)
+    stage.SetDefaultPrim(root_prim)
     
-    
+
     refModel = stage.OverridePrim('/World/Char')
     for key in mtlAssignments:
         stageMaterial = UsdShade.Material.Define(stage, key)
