@@ -1,3 +1,7 @@
+"""
+scrapes textures from a source, renames, and moves them to a new dir
+"""
+
 import re
 from glob import glob
 import os
