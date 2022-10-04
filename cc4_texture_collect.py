@@ -14,9 +14,9 @@ udim = {"Head":1001,
         "Leg":1004,
         "Nails":1005}
 # print(udim["Head"])
-asset = "male_0005"
-sourcePath = "N:\\working\\characters\\POC\\assets\\char\\{0}\\cc4".format(asset)
-destPath = "N:\\working\\characters\\POC\\assets\\char\\{0}\\textures_collected".format(asset)
+asset = "f22_eu_m_baa_bba"
+sourcePath = "N:\\working\\characters\\POC\\TASKS\\model\\char\\{0}\\cc4".format(asset)
+destPath = "N:\\working\\characters\\POC\\TASKS\\model\\char\\{0}\\textures_collected".format(asset)
 # if not os.path.isdir(destPath):
 if not os.path.exists(destPath):
     os.mkdir(destPath)
