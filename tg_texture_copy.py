@@ -1,3 +1,5 @@
+# this script copies the TG images from g drive to local drive. 
+
 import os
 from glob import glob
 import shutil
@@ -6,9 +8,12 @@ import shutil
 # destPath = "N:/working/characters/images/TG_processed/female/"
 # sex = "f"
 
-sourcePath = "G:/Shared drives/TriplegangersMaleData/neutrals/"
-destPath = "N:/working/characters/images/TG_processed/male/"
-sex = "m"
+sex = "Male"
+# sex = "Female"
+sourcePath = f'"G:/Shared drives/Triplegangers{sex}Data/neutrals/"'
+destPath = f'"N:/working/characters/images/TG_processed/{sex.lower()}/"'
+
+print(sourcePath, destPath )
 
 if not os.path.exists(destPath):
     os.mkdir(destPath)

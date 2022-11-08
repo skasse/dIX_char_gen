@@ -1,0 +1,332 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    upAxis = "Z"
+)
+
+over "World"
+{
+    over "Looks"
+    {
+
+        def Material "c_skin_mtl"
+        {
+            token outputs:mdl:displacement.connect = </World/Looks/c_skin_mtl/Shader.outputs:out>
+            token outputs:mdl:surface.connect = </World/Looks/c_skin_mtl/Shader.outputs:out>
+            token outputs:mdl:volume.connect = </World/Looks/c_skin_mtl/Shader.outputs:out>
+
+            def Shader "Shader"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniSurface.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniSurface"
+                float inputs:coat_ior = 1.4599999 (
+                    customData = {
+                        float default = 1.5
+                        dictionary range = {
+                            float max = 3.4028235e38
+                            float min = 0
+                        }
+                        dictionary soft_range = {
+                            float max = 5
+                            float min = 1
+                        }
+                    }
+                    displayGroup = "Coat"
+                    displayName = "IOR"
+                    hidden = false
+                )
+                asset inputs:coat_normal_image = @<texture_path>nm_<UDIM>.png@  (
+                    colorSpace = "raw"
+                    customData = {
+                        asset default = @@
+                    }
+                    displayGroup = "Coat"
+                    displayName = "Normal Map Image"
+                    hidden = false
+                )
+                bool inputs:coat_normal_image_flip_g_channel = 1 (
+                    customData = {
+                        bool default = 0
+                    }
+                    displayGroup = "Coat"
+                    displayName = "Normal Map Flip G Channel"
+                    hidden = false
+                )
+                float inputs:coat_roughness = 0.22999999 (
+                    customData = {
+                        float default = 0.1
+                        dictionary range = {
+                            float max = 1
+                            float min = 0
+                        }
+                    }
+                    displayGroup = "Coat"
+                    displayName = "Roughness"
+                    hidden = false
+                )
+                float inputs:coat_weight = 0.04 (
+                    customData = {
+                        float default = 0
+                        dictionary range = {
+                            float max = 1
+                            float min = 0
+                        }
+                    }
+                    displayGroup = "Coat"
+                    displayName = "Weight"
+                    hidden = false
+                )
+                asset inputs:diffuse_reflection_color_image = @<texture_path>diff_<UDIM>.png@ (
+                    colorSpace = "auto"
+                    customData = {
+                        asset default = @@
+                    }
+                    displayGroup = "Base"
+                    displayName = "Color Image"
+                    hidden = false
+                )
+                float inputs:diffuse_reflection_weight = 1 (
+                    customData = {
+                        float default = 0.8
+                        dictionary range = {
+                            float max = 1
+                            float min = 0
+                        }
+                    }
+                    displayGroup = "Base"
+                    displayName = "Weight"
+                    hidden = false
+                )
+                bool inputs:enable_diffuse_transmission = 1 (
+                    customData = {
+                        bool default = 0
+                    }
+                    displayGroup = "Subsurface"
+                    displayName = "Enable Subsurface"
+                    doc = "Enables the use of subsurface"
+                    hidden = false
+                )
+                asset inputs:geometry_normal_image = @<texture_path>nm_<UDIM>.png@ (
+                    colorSpace = "raw"
+                    customData = {
+                        asset default = @@
+                    }
+                    displayGroup = "Geometry"
+                    displayName = "Geometry Normal Map Image"
+                    hidden = false
+                )
+                bool inputs:geometry_normal_image_flip_b_channel = 0 (
+                    customData = {
+                        bool default = 0
+                    }
+                    displayGroup = "Geometry"
+                    displayName = "Normal Map Flip B Channel"
+                    hidden = false
+                )
+                bool inputs:geometry_normal_image_flip_g_channel = 1 (
+                    customData = {
+                        bool default = 0
+                    }
+                    displayGroup = "Geometry"
+                    displayName = "Normal Map Flip G Channel"
+                    hidden = false
+                )
+                bool inputs:geometry_normal_image_flip_r_channel = 0 (
+                    customData = {
+                        bool default = 0
+                    }
+                    displayGroup = "Geometry"
+                    displayName = "Normal Map Flip R Channel"
+                    hidden = false
+                )
+                asset inputs:specular_reflection_color_image = @<texture_path>specColor_<UDIM>.png@ (
+                    colorSpace = "raw"
+                    customData = {
+                        asset default = @@
+                    }
+                    displayGroup = "Specular"
+                    displayName = "Color Image"
+                    hidden = false
+                )
+                float inputs:specular_reflection_ior = 1.36 (
+                    customData = {
+                        float default = 1.5
+                        dictionary range = {
+                            float max = 3.4028235e38
+                            float min = 0
+                        }
+                        dictionary soft_range = {
+                            float max = 5
+                            float min = 1
+                        }
+                    }
+                    displayGroup = "Specular"
+                    displayName = "IOR"
+                    hidden = false
+                )
+                asset inputs:specular_reflection_roughness_image = @<texture_path>rough_<UDIM>.png@ (
+                    colorSpace = "raw"
+                    customData = {
+                        asset default = @@
+                    }
+                    displayGroup = "Specular"
+                    displayName = "Roughness Image"
+                    hidden = false
+                )
+                int inputs:specular_reflection_roughness_image_alpha_mode = 6 (
+                    customData = {
+                        int default = 0
+                    }
+                    displayGroup = "Specular"
+                    displayName = "Roughness Image Alpha Mode"
+                    hidden = false
+                    renderType = "::OmniSurface::OmniImage::alpha_mode"
+                    sdrMetadata = {
+                        string __SDR__enum_value = "alpha_default"
+                        string options = "alpha_default:0|alpha_red:1|alpha_green:2|alpha_blue:3|alpha_white:4|alpha_black:5|alpha_luminance:6|alpha_average:7"
+                    }
+                )
+                float inputs:specular_reflection_weight = .35 (
+                    customData = {
+                        float default = 1
+                        dictionary range = {
+                            float max = 1
+                            float min = 0
+                        }
+                    }
+                    displayGroup = "Specular"
+                    displayName = "Weight"
+                    hidden = false
+                )
+                float inputs:specular_retro_reflection_roughness = 0.26 (
+                    customData = {
+                        float default = 0.3
+                        dictionary range = {
+                            float max = 1
+                            float min = 0
+                        }
+                    }
+                    displayGroup = "Sheen"
+                    displayName = "Roughness"
+                    hidden = false
+                )
+                float inputs:specular_retro_reflection_weight = 0.049999997 (
+                    customData = {
+                        float default = 0
+                        dictionary range = {
+                            float max = 1
+                            float min = 0
+                        }
+                    }
+                    displayGroup = "Sheen"
+                    displayName = "Weight"
+                    hidden = false
+                )
+                float inputs:subsurface_scale = 1 (
+                    customData = {
+                        float default = 1
+                        dictionary range = {
+                            float max = 3.4028235e38
+                            float min = 0
+                        }
+                        dictionary soft_range = {
+                            float max = 10
+                            float min = 0
+                        }
+                    }
+                    displayGroup = "Subsurface"
+                    displayName = "Scale"
+                    hidden = false
+                )
+                color3f inputs:subsurface_scattering_color = (.35, .21, .2) (
+                    customData = {
+                        float3 default = (1, 1, 1)
+                    }
+                    displayGroup = "Subsurface"
+                    displayName = "Radius (mfp)"
+                    hidden = false
+                )
+                asset inputs:subsurface_scattering_color_image = @<texture_path>sss_<UDIM>.png@ (
+                    colorSpace = "auto"
+                    customData = {
+                        asset default = @@
+                    }
+                    displayGroup = "Subsurface"
+                    displayName = "Radius Image"
+                    hidden = false
+                )
+                color3f inputs:subsurface_transmission_color = (1, 1, 1) (
+                    customData = {
+                        float3 default = (1, 1, 1)
+                    }
+                    displayGroup = "Subsurface"
+                    displayName = "Color"
+                    hidden = false
+                )
+                asset inputs:subsurface_transmission_color_image = @<texture_path>diff_<UDIM>.png@ (
+                    colorSpace = "auto"
+                    customData = {
+                        asset default = @@
+                    }
+                    displayGroup = "Subsurface"
+                    displayName = "Color Image"
+                    hidden = false
+                )
+                float inputs:subsurface_weight = 1.0 (
+                    customData = {
+                        float default = 0
+                        dictionary range = {
+                            float max = 1
+                            float min = 0
+                        }
+                    }
+                    displayGroup = "Subsurface"
+                    displayName = "Weight"
+                    hidden = false
+                )
+                token outputs:out
+            }
+        }
+    }
+
+    over "Char" 
+    {
+        over "CC_Base_BoneRoot0"
+        {
+            over "CC_Base_Body"
+            {
+                rel material:binding = None
+
+                over "Std_Skin_Body"
+                {
+                    rel material:binding = </World/Looks/c_skin_mtl> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                }
+
+                over "Std_Skin_Arm"
+                {
+                    rel material:binding = </World/Looks/c_skin_mtl> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                }
+
+                over "Std_Skin_Leg"
+                {
+                    rel material:binding = </World/Looks/c_skin_mtl> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                }
+
+                over "Std_Skin_Head"
+                {
+                    rel material:binding = </World/Looks/c_skin_mtl> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                }
+            }
+        }
+    }
+}
+
