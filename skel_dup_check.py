@@ -98,19 +98,19 @@ def find_dup(lines):
         # print(model_set, line_set, joints_set)
         # print(dup_dict)
 
-for model in models:
-    # print(model)
-    find_dup(get_lines(model))
-    # dups = find_dup(get_lines(model))
-    # if dups:
-    #     print(dups)
-#     orig = get_lines(model)=
-#     print(orig[corrected[0]])
-#     print(corrected[1])
-#     orig[corrected[0]] = corrected[1]
-#     with open(output, 'w') as f:
-#         for line in orig:
-#             f.write(str(line))
+# for model in models:
+#     # print(model)
+#     find_dup(get_lines(model))
+#     # dups = find_dup(get_lines(model))
+#     # if dups:
+#     #     print(dups)
+# #     orig = get_lines(model)=
+# #     print(orig[corrected[0]])
+# #     print(corrected[1])
+# #     orig[corrected[0]] = corrected[1]
+# #     with open(output, 'w') as f:
+# #         for line in orig:
+# #             f.write(str(line))
 
 
 # find the duplicates
@@ -141,3 +141,18 @@ CC_Base_Head/Camila_Brow/Camila_Brow"
 "Diamond_Earing/CC_Base_Pivot/eyesteel_dmesh_000_Material_003"
 "Diamond_Earing_1_/CC_Base_Pivot/eyesteel_dmesh_000_Material_003"
 """
+
+
+import os
+import re
+from glob import glob
+
+
+# seach path
+model_paths = "N:/working/characters/POC/TASKS/MODEL/char/**/asset/model.usda"
+
+# replace os sep
+models = [x.replace(os.sep, '/') for x in glob(model_paths)]
+
+for each in models:
+    print(each.split('/')[-3])

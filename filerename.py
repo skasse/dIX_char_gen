@@ -1,4 +1,3 @@
-from hashlib import new
 import os
 from glob import glob
 import shutil

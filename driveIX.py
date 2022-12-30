@@ -2,7 +2,7 @@ import filecmp
 import os
 import shutil
 from glob import glob
-
+# import maya.cmds as mc
 
 network_path = "O:/Devs/SDG/POC/"
 local_path = "N:/working/characters/POC/"
@@ -102,13 +102,55 @@ for result in results:
 ####################
 
 
+def print_asset_lists():
+    nodes = mc.ls(sl=1)
+    for node in nodes:
+        print(f'{node} = {mc.listRelatives(node)}')
 
-# Adult Characters
-American = ['f22_eu_c_caa_cca', 'f30_eu_n_caa_ccb', 'f30_eu_n_baa_bba', 'f30_eu_n_aaa_aaa', 'm38_ei_c_aab_bba', 'm38_ei_n_aaa_aaa', 'm38_ei_n_aac_cca', 'm38_ei_c_aaa_aaa', 'm38_ei_c_aac_cca', 'm38_ei_m_aaa_aaa', 'm38_ei_m_aaa_bba', 'm38_ei_m_caa_cca']
-SE_Asian = ['f25_as_c_aaa_aaa', 'm60_as_m_aaa_aaa']
-PacificIslander = ['f35_eu_m_aaa_aaa', 'm22_eu_c_aaa_aaa', 'm38_ei_n_aab_bba']
-Oceanian = ['f50_ei_n_aaa_aaa', 'f50_ei_m_aaa_aaa', 'm50_aa_c_aaa_aaa', 'm50_aa_m_aaa_aaa', 'm50_aa_n_aaa_aaa']
-Caucasoid = ['f22_eu_c_baa_bba', 'f22_eu_m_aaa_aaa', 'f22_eu_m_caa_cca', 'f22_eu_n_aaa_aaa', 'f22_eu_n_baa_bba', 'f22_eu_n_caa_cca', 'f60_eu_m_aaa_aaa', 'f25_eu_c_aaa_aaa', 'f30_eu_m_baa_bba', 'm25_eu_m_aaa_aaa', 'm28_eu_m_aaa_aaa', 'm30_eu_m_aaa_aaa', 'm55_ei_c_aaa_aaa', 'm45_eu_n_aah_aaa', 'm45_eu_m_aaa_aaa']
-African = ['f35_af_m_aaa_aaa', 'f50_ei_c_aaa_aaa', 'f60_af_m_aaa_aaa', 'f60_af_n_aaa_aaa', 'f30_eu_m_caa_cca', 'f30_eu_c_aaa_aaa', 'f30_eu_c_caa_cca', 'f30_eu_c_baa_bba', 'm30_af_m_aaa_aaa', 'm35_af_c_caa_bba', 'm35_af_c_caa_cca', 'm35_af_c_caa_dda', 'm35_af_m_aaa_aaa', 'm35_af_m_baa_bba', 'm35_af_m_caa_cca', 'm35_af_n_aaa_aaa', 'm35_af_n_aab_bba', 'm35_af_n_baa_bba']
-NE_Asian = ['f22_eu_c_aaa_aaa', 'f22_eu_m_baa_bba', 'f30_eu_m_aaa_aaa', 'f40_eu_m_aaa_aaa']
+# SPREAD OUT SELECTION ALONG X
+for i, each in enumerate(mc.ls(sl=1), 0):
+    mc.xform(each, t=[20*i, 0, 0])
 
+# hide all hairs
+hair_list = ["*Hair*", "*Bun*", "*Bang*", "*Side_part_wavy*", "*Short_blowback*", "*Classic_short*", "*Camila_Brow*", "*Female_Angled*", "*Female_Brow*", "*Kevin_Brow*", "*Mustache_Horseshoe*", "*Male_Bushy*", "*simon*", "*Sideburns_Narrow*", "*Chinstrap_Thick*", "*Soul_Path_Thick*", "*Stubble_Neck*"]
+mc.hide(hair_list)
+
+# move all to origin
+mc.xform(mc.ls("???_??_?_???_???"), t=[0,0,0])
+
+
+
+# import assets from /char/**
+paths = [x.replace(os.sep, '/') for x in glob(path)]
+names = [x.split("/")[-3] for x in paths]
+
+for name,path in zip(names,paths):
+    print(name, path)
+    mc.file(path, i=True)
+    mc.rename("World", name)
+
+
+
+
+
+
+## search files for substring
+import os
+from glob import glob
+search_path = "C:\\Scripts\\ov\\**.py"
+results = [x.replace(os.sep, '/') for x in glob(search_path)]    
+
+def get_lines(filename):
+    with open(filename, 'r') as f:
+        lines = f.readlines()
+        f.close()
+    return lines
+
+substring = "N:/working/characters/POC"
+for result in results:
+    script = get_lines(result)
+    for i in range(len(script)):
+        # print(script[i])
+        ck = script[i]
+        if substring in ck:
+            print(result, i, ck)
